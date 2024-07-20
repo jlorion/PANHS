@@ -13,6 +13,7 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="{{asset('js/htmx.js')}}"></script>
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -31,6 +32,33 @@
             <main>
                 {{ $slot }}
             </main>
+            <script src="{{asset('js/html5-qrcode.min.js')}}"></script>
+            <script>
+                function domReady(fn) {
+                if (
+                document.readyState === "complete" ||
+                document.readyState === "interactive"
+                ) {
+                setTimeout(fn, 1000);
+                } else {
+                document.addEventListener("DOMContentLoaded", fn);
+                }
+                }
+
+                domReady(function () {
+
+                // If found you qr code
+                function onScanSuccess(decodeText, decodeResult) {
+                alert("You Qr is : " + decodeText, decodeResult);
+                }
+
+                let htmlscanner = new Html5QrcodeScanner(
+                "my-qr-reader",
+                { fps: 10, qrbos: 250 }
+                );
+                htmlscanner.render(onScanSuccess);
+                });
+            </script>
         </div>
     </body>
 </html>

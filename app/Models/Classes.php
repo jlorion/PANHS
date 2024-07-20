@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Classes extends Model
 {
     use HasFactory;
+    
+    protected $fillable = [
+        "grade",
+        "section",
+        "user_id",
+    ];
 }

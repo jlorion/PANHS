@@ -7,5 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Attendance extends Model
 {
+
     use HasFactory;
+
+    protected $fillable = [
+        "date",
+        "time_in",
+        "time_out"
+    ];
 }
