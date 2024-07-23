@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', '/scan');
 
 
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -18,6 +19,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/scan',  [AttendanceController::class, 'index'])->name('scan');
+    Route::get('/students', function(){
+        return view('students.students');
+    })->name('students');
 
     
 });
