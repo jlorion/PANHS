@@ -1,12 +1,13 @@
 <?php
 
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\ClassesController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StudentsController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 Route::redirect('/', '/scan');
-
-
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -19,9 +20,19 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/scan',  [AttendanceController::class, 'index'])->name('scan');
-    Route::get('/students', function(){
-        return view('students.students');
-    })->name('students');
+
+    Route::get('/students', [StudentsController::class, 'index'])->name('students');
+    Route::get('/students/addstudent', [StudentsController::class, 'create'])->name('students.create');
+    Route::post('/students/addstudent', [StudentsController::class, 'store'])->name('students.store');
+
+    Route::post('/attendance', [AttendanceController::class, 'store'])->name('attendacne.store');
+    Route::get('/attendance', [AttendanceController::class, 'show'])->name('attendance.call');
+
+    Route::get('/classes', [ClassesController::class, 'index'])->name('classes');
+    Route::get('/classes/add', [ClassesController::class, 'create'])->name('classes.create');
+    Route::post('/classes/add', [ClassesController::class, 'store'])->name('classes.store');
+
+
 
     
 });

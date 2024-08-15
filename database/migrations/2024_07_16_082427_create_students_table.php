@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id()->unique();
             $table->string('name');
-            $table->string('img');
+            $table->longText('img')->nullable();
             $table->boolean('dropped')->default(false);
             $table->foreignId('class_id')->nullable()->references('id')->on('classes')->onUpdate('cascade')->onDelete('set null'); //doubt pls work amen
         });

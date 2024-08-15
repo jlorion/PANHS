@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Students;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -15,9 +16,17 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
+        for ($i=0; $i < 30; $i++) { 
+            Students::factory()->create([
+                'name'=> fake()->name(),
+                'img' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH8AAABxAQMAAADGee4gAAAAA1BMVEUBAgHjiQX5AAAAF0lEQVQ4y2NgGAWjYBSMglEwCkYB3QEAB4EAAbCT7AYAAAAASUVORK5CYII=',
+                'class_id' => null
+    
+            ]);
+        }
     }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Classes;
 use App\Http\Requests\StoreClassesRequest;
 use App\Http\Requests\UpdateClassesRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ClassesController extends Controller
 {
@@ -13,6 +15,7 @@ class ClassesController extends Controller
      */
     public function index()
     {
+        return view('classes.index');
         //
     }
 
@@ -21,14 +24,32 @@ class ClassesController extends Controller
      */
     public function create()
     {
+        return view('classes.add');
         //
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreClassesRequest $request)
+    public function store(Request $request)
     {
+        $validatedData = Validator::make($request->all(), [
+            'data'=>'required|array',
+            'data.*.section'=>'required|string',
+            'data.*.grade'=>'numeric|required',
+            'data.*.user_id'=>'nullable|numeric|exist:users,id'
+        ]);
+        if ($validatedData->fails()) {
+            return back()->withInput()->withErrors($validatedData->errors());
+        }
+
+        $datas = $validatedData->getData();
+
+        foreach ($datas['data'] as $key => $value) {
+            Classes::create($value);
+        }
+
+        return redirect('/classes')->with('message', 'Classes created successfully!');
         //
     }
 

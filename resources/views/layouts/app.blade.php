@@ -11,20 +11,24 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="{{asset('js/tailwindcss.js')}}"></script>
+        <script src="{{asset('js/jquery-3.7.1.min.js')}}"></script>
+        
         <!-- Scripts -->
         <script src="{{asset('js/htmx.min.js')}}"></script>
-        {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+        <script src="{{asset('js/html5-qrcode.min.js')}}"></script>
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+        <div class="min-h-screen bg-gradient-to-b from-white to-green-200 ">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white dark:bg-gray-800 shadow">
+                <header class="bg-gradient-to-tl from-pink-100 to-pink-400 bg-gradient shadow">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
+                        
                     </div>
                 </header>
             @endisset
@@ -33,33 +37,6 @@
             <main>
                 {{ $slot }}
             </main>
-            <script src="{{asset('js/html5-qrcode.min.js')}}"></script>
-            <script>
-                function domReady(fn) {
-                if (
-                document.readyState === "complete" ||
-                document.readyState === "interactive"
-                ) {
-                setTimeout(fn, 1000);
-                } else {
-                document.addEventListener("DOMContentLoaded", fn);
-                }
-                }
-
-                domReady(function () {
-
-                // If found you qr code
-                function onScanSuccess(decodeText, decodeResult) {
-                alert("You Qr is : " + decodeText, decodeResult);
-                }
-
-                let htmlscanner = new Html5QrcodeScanner(
-                "my-qr-reader",
-                { fps: 10, qrbos: 250 }
-                );
-                htmlscanner.render(onScanSuccess);
-                });
-            </script>
         </div>
     </body>
 </html>
