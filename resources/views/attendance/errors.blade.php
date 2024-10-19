@@ -1,7 +1,6 @@
 <div x-data="{close(){$refs.modalRef.close(); document.getElementById('existbutton').click();}}">
     <dialog class="relative z-10" x-ref="modalRef">
         <div x-init="$refs.modalRef.showModal()">
-            
             <div class="items-center justify-center bg-gray-800 fixed inset-0 flex bg-opacity-50">
                 <div class="bg-white rounded-lg shadow-xl sm:max-w-lg sm:w-full overflow-hidden transform transition-all p-6">
                     <div class="items-center justify-center sm:flex-row sm:space-x-4 flex flex-col">

@@ -18,7 +18,8 @@ class StudentsFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'=> fake()->name(),
+            'first_name'=> fake()->firstName(),
+            'last_name'=> fake()->lastName(),
             'img'=> "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAH8AAABxAQMAAADGee4gAAAAA1BMVEUBAgHjiQX5AAAAF0lEQVQ4y2NgGAWjYBSMglEwCkYB3QEAB4EAAbCT7AYAAAAASUVORK5CYII=",
             'class_id'=> null
         ];

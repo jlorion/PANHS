@@ -30,11 +30,13 @@ add list of all classes with button for delete and edit --}}
         </div>
         <div class="py-4 flex justify-center">
             <ul class="space-y-4 lg:w-2/3 md:w-1/2 w-full">
-                <li class="flex flex-col md:flex-row items-center p-4 bg-pink-200 border border-gray-300 mx-1 rounded-lg shadow-sm">
+                @for($i = 0; $i < $classes->count(); $i++)
+                    
+                <li id="classes_{{$classes[$i]->id}}" class="flex flex-col md:flex-row items-center p-4 bg-pink-200 border border-gray-300 mx-1 rounded-lg shadow-sm">
                     <div class="flex-1">
-                        <p class="text-lg font-semibold">Section name</p>
-                        <p class="text-gray-600">Grade: ##</p>
-                        <p class="text-gray-600">Prof: name</p>
+                        <p class="text-lg font-semibold">{{$classes[$i]->section}}</p>
+                        <p class="text-gray-600">Grade: {{$classes[$i]->grade}}</p>
+                        <p class="text-gray-600">Prof: {{$classes[$i]->name}}</p>
                     </div>
                     <div class="my-2">
                         <button class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Edit</button>
@@ -42,6 +44,7 @@ add list of all classes with button for delete and edit --}}
                     </div>
                 </li>
              
+                @endfor
             </ul>
         </div>
 

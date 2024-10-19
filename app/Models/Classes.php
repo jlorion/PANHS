@@ -15,4 +15,11 @@ class Classes extends Model
         "section",
         "user_id",
     ];
+
+    public function scopeFilter($query, array $filters){
+
+        if ($filters['search'] ?? false) {
+            $query->where('section', 'like', '%'.$filters['search'].'%');
+        }
+    }
 }

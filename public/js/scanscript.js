@@ -4,7 +4,7 @@ function scanData() {
     return {
         logType: 'time_in',
         setLogtype(){
-            this.logType = date.getHours() <= 12? "time_in":"timecanout";
+            this.logType = date.getHours() <= 12? "time_in":"time_out";
         },
         dateToday(){
             return new Date().toDateString();

@@ -7,16 +7,27 @@ use App\Http\Requests\StoreStudentsRequest;
 use App\Http\Requests\UpdateStudentsRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+
+use function Laravel\Prompts\table;
 
 class StudentsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
 
-        return view('students.students');
+        $classes = DB::table('classes')->select()->get();
+
+        $students = Students::orderBy("last_name")->leftJoin('classes', 'classes.id', '=', 'students.class_id')->select('students.*', 'classes.section', 'classes.grade')->filter($request->query())->paginate(30);
+
+        if($request->header('hx-request') && $request->header('hx-target')=='div-target'){
+            return view('students.partials.list', ['classes'=>$classes, 'students'=>$students]);
+        }
+
+        return view('students.students', ['classes'=>$classes, 'students'=>$students]);
         //
     }
 
@@ -26,7 +37,9 @@ class StudentsController extends Controller
     public function create()
     {
         //do this 
-        return view('students.add');
+        $sections = DB::table('classes')->select()->get();
+
+        return view('students.add', ['sections'=>$sections]);
 
         //
     }
@@ -40,17 +53,24 @@ class StudentsController extends Controller
         $validData = Validator::make($request->all(), [
             'data'=> 'required|array',
             'data.*.id'=> 'required|numeric|unique:students,id|distinct',
-            'data.*.name'=> 'required|string|distinct',
+            'data.*.first_name'=> 'required|string|distinct',
+            'data.*.last_name'=> 'required|string|distinct',
             'data.*.img'=> 'string|distinct|nullable',
             'data.*.class_id'=> 'numeric|nullable'
         ]);
-        $datas = $request->data;
 
-        foreach ($datas as $key => $value) {
-            $value['class_id']= null;
-            Students::insert($value);
+
+        if ($validData->fails()) {
+            return back()->withInput()->withErrors($validData->errors());
         }
-        return redirect()->route('dashboard');
+
+        $datas = $validData->getData();
+
+        foreach ($datas['data'] as $key => $value) {
+            Students::create($value);
+        }
+
+        return redirect()->route('students')->with('message', 'Students are created!');
 
     }
 
@@ -60,6 +80,7 @@ class StudentsController extends Controller
     public function show(Students $students)
     {
         //
+        return view('students.profiles.student', ['student'=> $students]);
     }
 
     /**

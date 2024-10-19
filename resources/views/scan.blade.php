@@ -8,7 +8,7 @@
 
     <script src="{{asset('js/scanscript.js')}}"></script>
 
-    <div x-data="scanData" class="flex flex-col justify-center items-center my-5">
+    <div x-data="scanData" class="flex flex-col justify-center items-center ">
         <div class="flex w-full my-3" x-init="setLogtype">
             <button :class="logType==='time_in'? 'bg-green-500': 'bg-green-200' " class="bg-blue-200 w-full hover:bg-green-300 mx-1 rounded" x-on:click="logType = 'time_in'" onclick="typeThing= 'time_in'">time in</button>
             <button :class="logType==='time_out'? 'bg-green-500': 'bg-green-200'" class="w-full hover:bg-green-300 mx-1 rounded" x-on:click="logType = 'time_out'" onclick="typeThing = 'time_out'">time out</button>

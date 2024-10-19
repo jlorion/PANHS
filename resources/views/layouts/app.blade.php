@@ -32,8 +32,10 @@
                     </div>
                 </header>
             @endisset
-
             <!-- Page Content -->
+            <div class=" mt-1 w-full">
+                @include('components.alert-message')
+            </div>
             <main>
                 {{ $slot }}
             </main>

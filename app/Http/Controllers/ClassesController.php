@@ -6,17 +6,21 @@ use App\Models\Classes;
 use App\Http\Requests\StoreClassesRequest;
 use App\Http\Requests\UpdateClassesRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ClassesController extends Controller
 {
-    /**
+    /*kkkkkkkkkkkkkk
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('classes.index');
-        //
+
+        // $listOfClasses = DB::table('classes')->leftJoin('users', 'classes.user_id', '=', 'users.id')->select('classes.*', 'users.name')->get();
+        $listOfClasses = Classes::orderBy('grade')->filter(request(['search']))->leftJoin('users', 'classes.user_id', '=', 'users.id')->select('classes.*', 'users.name')->get();
+        
+        return view('classes.index', ['classes'=>$listOfClasses]);
     }
 
     /**
@@ -24,7 +28,9 @@ class ClassesController extends Controller
      */
     public function create()
     {
-        return view('classes.add');
+        $advisers = DB::table('users')->select()->get();
+
+        return view('classes.add', ['advisers'=>$advisers]);
         //
     }
 
@@ -37,8 +43,9 @@ class ClassesController extends Controller
             'data'=>'required|array',
             'data.*.section'=>'required|string',
             'data.*.grade'=>'numeric|required',
-            'data.*.user_id'=>'nullable|numeric|exist:users,id'
+            'data.*.user_id'=>'nullable|numeric|exists:users,id'
         ]);
+        
         if ($validatedData->fails()) {
             return back()->withInput()->withErrors($validatedData->errors());
         }
@@ -49,7 +56,7 @@ class ClassesController extends Controller
             Classes::create($value);
         }
 
-        return redirect('/classes')->with('message', 'Classes created successfully!');
+        return redirect()->route('classes')->with('message', 'Classes created successfully!');
         //
     }
 

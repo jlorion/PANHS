@@ -1,6 +1,6 @@
 
 <x-app-layout>
-    {{-- {{dd($errors->all())}} --}}
+    {{-- {{dd($errors->all())}} --}} 
     {{-- {{dd(old()['data'])}} --}}
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-900 leading-tight">
@@ -8,7 +8,7 @@
         </h2>
     </x-slot>
     <script>
-        function state(){
+        function addClassState(){
             return {
                 grade: null,
                 user_id: '',
@@ -40,7 +40,7 @@
         }
     </script>
 
-    <div x-data="state()">
+    <div x-data="addClassState()">
 
 
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-3">
@@ -51,7 +51,9 @@
         
                 <select x-model="user_id" class="bg-gray-50 flex-initial w-full rounded-lg m-1 p-1 text-gray-400 focus:text-black sm:w-60">
                     <option selected>Adviser</option>
-                    <option value="1" >something</option>
+                    @for($i = 0; $i < $advisers->count(); $i++)
+                        <option value="{{$advisers[$i]->id}}">{{$advisers[$i]->name}}</option>
+                    @endfor
                 </select>
         
                 <button x-on:click="newData" class="bg-blue-400 flex flex-none w-full items-center justify-center rounded-md border sm:w-32 border-transparent bg-indigo-600 px-4 py-2 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
@@ -69,8 +71,9 @@
                             <input type="number" x-model="data.grade" :name="insertName(index, 'grade')" min="7" max="12" class="w-full rounded-md flex-initial sm:w-24 m-1">
                             <input type="text" x-model="data.section" :name="insertName(index, 'section')"  class="flex-inital m-1 w-full rounded-md sm:w-96">
                             <select :name="insertName(index, 'user_id')" x-init="optionAssignment(index, data)" class="bg-gray-50 flex-initial w-full rounded-lg m-1 p-1 text-gray-400 focus:text-black sm:w-60" >
-                                <option>none</option>
-                                <option value="1">something</option>
+                                @for($i = 0; $i < $advisers->count(); $i++)
+                                    <option value="{{$advisers[$i]->id}}">{{$advisers[$i]->name}}</option>
+                                @endfor
                             </select>
 
                             <button type="button" class="bg-red-400 rounded-lg h-10 w-20 m-1" @click="datas.splice(index, 1)">&cross;</button>
@@ -81,7 +84,7 @@
                 
     
             <button type="submit" x-bind:disabled="!isEmpty()" :class="!isEmpty()?'bg-gray-500': 'bg-green-600'" class="bg-green-500 mt-2 inline-flex w-32 items-center justify-center rounded-md border border-transparent  px-4 py-2 font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm bg-green-500">
-                Add Students
+                Add Class
             </button>
     
         </form>
